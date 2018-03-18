@@ -249,7 +249,7 @@ class mainframe(wx.Frame):
             self.m_button2.SetLabel("Iniciar")
 
     def guardar_click(self, event):
-        with open(datetime.now().strftime('%Y-%m-%d-%H-%M')+'.csv','w') as f:
+        with open(datetime.now().strftime('export/%Y-%m-%d-%H-%M')+'.csv','w') as f:
             w = csv.writer(f)
             w.writerows(csvdata.items())
 
