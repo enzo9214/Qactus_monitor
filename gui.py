@@ -14,7 +14,7 @@ import serial
 import threading
 import csv
 from datetime import datetime
-from playsound import playsound
+import pygame
 from Adafruit_IO import *
 
 aio = Client('bab3797df29840b2ab431190b2b12c54')
@@ -76,11 +76,13 @@ def monitor():
 
             if status:
                 if alarma_alta | alarma_baja:
-                    playsound("/home/pi/Desktop/smb_pause.wav")
+                    pygame.mixer.music.load("/home/pi/Desktop/Qactus_monitor/smb_pause.wav")
+                    pygame.mixer.music.play()
                     time.sleep(4)
                 if data1 >= setpoint:
-                    playsound("/home/pi/desktop/smb_stage_clear.wav")
-                    time.sleep(20)
+                    pygame.mixer.music.load("/home/pi/Desktop/Qactus_monitor/smb_clear_stage.wav")
+                    pygame.mixer.music.play()
+                    time.sleep(25)
 	    time.sleep(0.5)
 	
 def ioadafruit():
@@ -280,6 +282,7 @@ def Main():
     app = wx.App(False)
     frame = mainframe(None)
     frame.Show(True)
+    pygame.mixer.init()
     reading_thread.start()
     monitor_thread.start()
     export_thread.start()
