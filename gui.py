@@ -25,8 +25,8 @@ aio = Client('bab3797df29840b2ab431190b2b12c54')
 
 iniciar = False;
 status = False;
-ser = serial.Serial('COM10', 9600)
-##ser = serial.Serial('ttyACM0',9600)
+##ser = serial.Serial('COM10', 9600)
+ser = serial.Serial('/dev/ttyACM0',9600)
 data1 = 0
 data2 = 0
 setpoint = 0
