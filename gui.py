@@ -44,11 +44,14 @@ def reading():
     while True:
             original_data = str(ser.readline())
             data = original_data.split(",")
-            data1 = int(data[0][2:])
-            data2 = int(data[1][:-5])
+	    print data
+            data1 = int(data[0])
+            data2 = int(data[1][:-2])	
             if status:
                 csvdata[data1] = data2
                 listadata.append(data2)
+	    time.sleep(0.5)
+
 def monitor():
         global data1,data2,setpoint,albaja,alalta,status
         alarma_baja = False
@@ -78,7 +81,8 @@ def monitor():
                 if data1 >= setpoint:
                     playsound("/home/pi/desktop/smb_stage_clear.wav")
                     time.sleep(20)
-
+	    time.sleep(0.5)
+	
 def ioadafruit():
 
     while True:
