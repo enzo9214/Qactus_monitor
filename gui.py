@@ -26,7 +26,7 @@ aio = Client('bab3797df29840b2ab431190b2b12c54')
 iniciar = False;
 status = False;
 ##ser = serial.Serial('COM10', 9600)
-ser = serial.Serial('/dev/ttyACM0',9600)
+ser = serial.Serial('/dev/ttyUSB0',9600)
 data1 = 0
 data2 = 0
 setpoint = 0
@@ -36,8 +36,8 @@ csvdata = {}
 listadata = [];
 
 def reading():
-    if ser.is_open == False:
-        ser.open()
+    if ser.isOpen() == False:
+    	ser.open()
 
     global data1, data2
 
@@ -73,10 +73,10 @@ def monitor():
 
             if status:
                 if alarma_alta | alarma_baja:
-                    playsound("smb_pause.wav")
+                    playsound("/home/pi/Desktop/smb_pause.wav")
                     time.sleep(4)
                 if data1 >= setpoint:
-                    playsound("smb_stage_clear.wav")
+                    playsound("/home/pi/desktop/smb_stage_clear.wav")
                     time.sleep(20)
 
 def ioadafruit():
