@@ -45,8 +45,8 @@ def reading():
             original_data = str(ser.readline())
             data = original_data.split(",")
 	    print data
-            data1 = int(data[0])
-            data2 = int(data[1][:-2])	
+            data1 = int(data[0])/10
+            data2 = float(data[1][:-2])/100	
             if status:
                 csvdata[data1] = data2
                 listadata.append(data2)
@@ -64,12 +64,12 @@ def monitor():
             else:
                 termino = False
 
-            if (data2 <= albaja):
+            if (data2 <= float(albaja)/100):
                 alarma_baja = True
             else:
                 alarma_baja = False
 
-            if (data2 >= alalta):
+            if (data2 >= float(alalta)/100):
                 alarma_alta = True
             else:
                 alarma_alta = False
@@ -78,11 +78,14 @@ def monitor():
                 if alarma_alta | alarma_baja:
                     pygame.mixer.music.load("/home/pi/Desktop/Qactus_monitor/smb_pause.wav")
                     pygame.mixer.music.play()
-                    time.sleep(4)
+                    while pygame.mixer.music.get_busy() == True:
+			continue
                 if data1 >= setpoint:
-                    pygame.mixer.music.load("/home/pi/Desktop/Qactus_monitor/smb_clear_stage.wav")
+                    pygame.mixer.music.load("/home/pi/Desktop/Qactus_monitor/smb_stage_clear.wav")
                     pygame.mixer.music.play()
-                    time.sleep(25)
+                    while pygame.mixer.music.get_busy() == True:
+			continue
+		    time.sleep(10)
 	    time.sleep(0.5)
 	
 def ioadafruit():
@@ -255,7 +258,7 @@ class mainframe(wx.Frame):
             self.m_button2.SetLabel("Iniciar")
 
     def guardar_click(self, event):
-        with open(datetime.now().strftime('export/%Y-%m-%d-%H-%M')+'.csv','w') as f:
+        with open(datetime.now().strftime('/media/pi/3D26-3B0F/%Y-%m-%d-%H-%M')+'.csv','w') as f:
             w = csv.writer(f)
             w.writerows(csvdata.items())
 
@@ -283,6 +286,7 @@ def Main():
     frame = mainframe(None)
     frame.Show(True)
     pygame.mixer.init()
+    pygame.mixer.music.set_volume(1.0)
     reading_thread.start()
     monitor_thread.start()
     export_thread.start()
